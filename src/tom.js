@@ -15,22 +15,31 @@ function Lat2Merc(lat) {
     return 20037508.34 * lat / 180;
 }
 
-function addMarker(layer, lon, lat, popupContentHTML) {
+function addMarker(layer, lon, lat, popupContentHTML, icon = undefined) {
 
     var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));
     var feature = new OpenLayers.Feature(layer, ll);
     feature.closeBox = true;
-    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
+    feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180)});
     feature.data.popupContentHTML = "<div style='color: black'>" + popupContentHTML + "</div>";
     feature.data.overflow = "hidden";
 
-    var marker = new OpenLayers.Marker(ll);
+    if (icon === undefined) {
+        var marker = new OpenLayers.Marker(ll);
+
+    } else {
+        var marker = new OpenLayers.Marker(ll, icon);
+
+    }
     marker.feature = feature;
 
     var markerClick = function(evt) {
         if (this.popup == null) {
             this.popup = this.createPopup(this.closeBox);
             map.addPopup(this.popup);
+            layer_markers.popups.forEach(element => { // TODO doesn't work
+                element.hide();
+            })
             this.popup.show();
         } else {
             this.popup.toggle();
