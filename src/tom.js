@@ -21,7 +21,7 @@ function addMarker(layer, lon, lat, popupContentHTML) {
     var feature = new OpenLayers.Feature(layer, ll);
     feature.closeBox = true;
     feature.popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {minSize: new OpenLayers.Size(300, 180) } );
-    feature.data.popupContentHTML = popupContentHTML;
+    feature.data.popupContentHTML = "<div style='color: black'>" + popupContentHTML + "</div>";
     feature.data.overflow = "hidden";
 
     var marker = new OpenLayers.Marker(ll);
@@ -39,8 +39,11 @@ function addMarker(layer, lon, lat, popupContentHTML) {
     };
     marker.events.register("mousedown", feature, markerClick);
 
+
     layer.addMarker(marker);
-    map.addPopup(feature.createPopup(feature.closeBox));
+    var popup = feature.createPopup(feature.closeBox);
+    popup.hide();
+    map.addPopup(popup);
 }
 
 function getCycleTileURL(bounds) {

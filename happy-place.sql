@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Erstellungszeit: 08. Jan 2021 um 10:00
+-- Erstellungszeit: 08. Jan 2021 um 10:38
 -- Server-Version: 10.5.8-MariaDB-1:10.5.8+maria~focal
 -- PHP-Version: 7.4.14
 
@@ -33,6 +33,15 @@ CREATE TABLE `lernende` (
   `plz` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `lernende`
+--
+
+INSERT INTO `lernende` (`vorname`, `nachname`, `plz`) VALUES
+('Lenny', 'Angst', '8907'),
+('Denys', 'Zimmermann', '8180'),
+('Micha', 'Baumann', '8153');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +54,15 @@ CREATE TABLE `marker` (
   `icon` varchar(255) NOT NULL,
   `plz` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `marker`
+--
+
+INSERT INTO `marker` (`lon`, `lat`, `icon`, `plz`) VALUES
+(8.47372, 47.338881, 'marker', '8907'),
+(8.529746, 47.450467, 'marker', '8153'),
+(8.540992, 47.517201, 'marker', '8180');
 
 -- --------------------------------------------------------
 

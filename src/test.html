@@ -22,14 +22,13 @@
 
         function drawmap() {
             // Popup und Popuptext mit evtl. Grafik
-            var popuptext="<font color=\"black\"><b>Thomas Heiles<br>Stra&szlig;e 123<br>54290 Trier</b><p><img src=\"test.jpg\" width=\"180\" height=\"113\"></p></font>";
 
             OpenLayers.Lang.setCode('de');
 
             // Position und Zoomstufe der Karte
-            var lon = 6.641389;
-            var lat = 49.756667;
-            var zoom = 7;
+            var lon = 8.520837;
+            var lat = 47.360117;
+            var zoom = 15;
 
             map = new OpenLayers.Map('map', {
                 projection: new OpenLayers.Projection("EPSG:900913"),
@@ -54,7 +53,8 @@
             jumpTo(lon, lat, zoom);
 
             // Position des Markers
-            addMarker(layer_markers, 6.641389, 49.756667, popuptext);
+            addMarker(layer_markers, 8.520837, 47.360117, "<p>ZLI Zürcher Lehrbetriebsverband</p>");
+            addMarker(layer_markers, 0, 90, "<p>Nordpol</p>");
 
         }
 

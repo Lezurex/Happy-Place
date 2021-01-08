@@ -27,7 +27,7 @@ function drawmap() {
         maxExtent:
             new OpenLayers.Bounds(-20037508.34,-20037508.34,
                 20037508.34, 20037508.34),
-        numZoomLevels: 18,
+        numZoomLevels: 100,
         maxResolution: 156543,
         units: 'meters'
     });
