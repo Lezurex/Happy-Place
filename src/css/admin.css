@@ -1,0 +1,53 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Arial, serif;
+}
+
+#login-content {
+    display: block;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+input {
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    padding-bottom: .2rem;
+}
+
+input:focus, input:active {
+    border-bottom: 0.2rem solid rgb(48, 187, 255);
+    transition: 0.5s;
+}
+
+td {
+    padding: 0.5rem;
+}
+
+button {
+    box-sizing: border-box;
+    outline: none;
+    border: .2rem solid black;
+    background: none;
+    padding: .5rem;
+    border-radius: 5px;
+    transition: .5s;
+}
+
+button:hover, button:focus {
+    border: .2rem solid rgb(48, 187, 255);
+    transition: .5s;
+}
+
+#login-btn {
+    float: right;
+}
