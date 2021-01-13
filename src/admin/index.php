@@ -1,6 +1,8 @@
 <?php
 
-
+if (isset($_SESSION['username'])) {
+    header("Location: ./dashboard/");
+}
 
 ?>
 
@@ -27,10 +29,14 @@
             <td><input type="password" id="login-password"></td>
         </tr>
         <tr>
+            <td colspan="2" id="login-error"></td>
+        </tr>
+        <tr>
             <td></td>
             <td><button id="login-btn">Anmelden</button></td>
         </tr>
     </table>
 </div>
+<script src="/js/login.js"></script>
 </body>
 </html>

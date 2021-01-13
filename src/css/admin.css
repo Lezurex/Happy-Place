@@ -51,3 +51,7 @@ button:hover, button:focus {
 #login-btn {
     float: right;
 }
+
+#login-error {
+    color: red;
+}
