@@ -105,27 +105,40 @@ $db = new DatabaseAdapter();
     $data = array();
 
     foreach ($markers as $marker) {
+        $city_data = $db->getStringsFromTable("cities", new Key("id", $marker['city_id']));
+
         $data_item = array();
         $data_item['lon'] = doubleval($marker['lon']);
         $data_item['lat'] = doubleval($marker['lat']);
         $data_item['icon'] = $marker['icon'];
-        $data_item['plz'] = $marker['plz'];
+        $data_item['plz'] = $city_data['plz'];
+        $data_item['city'] = $city_data['name'];
 
-
-        $data_item['city'] = $db->getStringFromTable("ortschaften", "name", new Key("plz", $marker['plz']));
-        $request = $db->executeCommand("SELECT * FROM lernende WHERE plz = '" . $marker['plz'] . "';");
-        $result = array();
-        while ($row = mysqli_fetch_assoc($request)) {
-            array_push($result, $row);
-        }
+        $student_ids = json_decode($marker['student_ids']);
         $students = array();
-        foreach ($result as $item) {
-            $student = array(
-                "first" => censorString($item['vorname']),
-                "last" => censorString($item['nachname'])
+
+        foreach ($student_ids as $student_id) {
+            $student = $db->getStringsFromTable("students", new Key("id", $student_id));
+            $student_item = array(
+                "first" => censorString($student['firstname']),
+                "last" => censorString($student['lastname'])
             );
-            array_push($students, $student);
+            array_push($students, $student_item);
         }
+
+//        $request = $db->executeCommand("SELECT * FROM lernende WHERE plz = '" . $marker['plz'] . "';");
+//        $result = array();
+//        while ($row = mysqli_fetch_assoc($request)) {
+//            array_push($result, $row);
+//        }
+//        $students = array();
+//        foreach ($result as $item) {
+//            $student = array(
+//                "first" => censorString($item['vorname']),
+//                "last" => censorString($item['nachname'])
+//            );
+//            array_push($students, $student);
+//        }
 
         $data_item['students'] = $students;
 
@@ -134,7 +147,8 @@ $db = new DatabaseAdapter();
 
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
 
-    function censorString($string) {
+    function censorString($string)
+    {
         $chars = preg_split('//', $string, -1, PREG_SPLIT_NO_EMPTY);
         $return_string = "";
         $count = 0;

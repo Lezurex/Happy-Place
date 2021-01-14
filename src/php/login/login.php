@@ -2,6 +2,8 @@
 
 include $_SERVER['DOCUMENT_ROOT'] . "/php/database/DatabaseAdapter.php";
 
+session_start();
+
 $db = new DatabaseAdapter();
 
 if ($db->containsEntry("admin", new Key("benutzername", $_POST['username']))) {
