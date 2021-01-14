@@ -3,9 +3,17 @@ let password = document.getElementById("login-password");
 let btn = document.getElementById("login-btn");
 let loginError = document.getElementById("login-error");
 
-btn.addEventListener("click", doQuery);
+btn.addEventListener("click", doRequest);
+user.addEventListener("keyup", enterEvent);
+password.addEventListener("keyup", enterEvent);
 
-function doQuery() {
+function enterEvent(event) {
+    if (event.keyCode === 13) {
+        doRequest();
+    }
+}
+
+function doRequest() {
     if (user.value !== "" && password.value !== "") {
         let request = new XMLHttpRequest();
         request.open("POST", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port + "/php/login/login.php");

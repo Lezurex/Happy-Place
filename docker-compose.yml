@@ -17,6 +17,8 @@ services:
       MYSQL_DATABASE: happy-place
     volumes: 
       - ./mariadb-data:/var/lib/mysql
+    ports:
+      - "3000:3306"
 
   phpmyadmin:
     image: phpmyadmin
