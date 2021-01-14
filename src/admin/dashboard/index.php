@@ -21,16 +21,37 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="/css/dashboard.css">
 
 </head>
-<body>
+<body onload="onLoad();">
 
 <header>
     <div>
         <p>Happy Place - Management Console</p>
     </div>
+    <a href="/php/login/logout.php"><button>Logout</button></a>
 </header>
 
 <main>
+    <div class="card">
+        <h2 class="card-heading">
+            Management
+        </h2>
+        <div class="card-body">
+            <p>Tabelle von eingetragenen Lernenden:</p>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>Wohnort(e)</th>
+                        <th>Aktionen</th>
+                    </tr>
+                </thead>
+                <tbody>
 
+                </tbody>
+            </table>
+        </div>
+    </div>
 </main>
 <script src="/js/dashboard.js"></script>
 </body>

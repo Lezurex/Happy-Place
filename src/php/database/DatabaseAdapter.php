@@ -356,4 +356,32 @@ class DatabaseAdapter {
         return $this->executeCommand($stringBuilder);
     }
 
+    /**
+     * @param $tablename
+     * @param Key ...$keys
+     */
+    public function getContainingRows($tablename, ...$keys) {
+        $stringBuilder = "";
+        $stringBuilder .= "SELECT * FROM {$tablename} WHERE";
+
+        $length = sizeof($keys);
+        if ($length != 0) {
+            foreach ($keys as $key) {
+                if ($length == 1) {
+                    $stringBuilder .= " " . $key->getColumn() . " LIKE '%" . $key->getKeyWord() . "%'";
+                } else {
+                    $stringBuilder .= " " . $key->getColumn() . " LIKE '%" . $key->getKeyWord() . "%' OR";
+                    $length--;
+                }
+            }
+        }
+
+        $result = $this->executeCommand($stringBuilder);
+        $returnArray = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            array_push($returnArray, $row);
+        }
+        return $returnArray;
+    }
+
 }

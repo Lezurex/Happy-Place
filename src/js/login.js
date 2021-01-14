@@ -34,3 +34,7 @@ function doRequest() {
         request.send(formData);
     }
 }
+
+setTimeout(function () {
+    document.getElementById("logout-notice").style.opacity = "0";
+}, 5000);

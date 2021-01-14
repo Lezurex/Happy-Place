@@ -21,3 +21,74 @@ header div p {
     font-size: 1.5rem;
     margin: .5rem 0;
 }
+
+header a {
+    display: flex;
+    align-items: center;
+}
+
+header button {
+    background-color: white;
+    outline: 0;
+    border: .2rem solid blue;
+    transition: .5s;
+    border-radius: 5px;
+    height: 80%;
+}
+
+header button:hover, header button:focus {
+    border: .2rem solid red;
+    transition: .5s;
+    border-radius: 10px;
+}
+
+main {
+    padding: 2rem;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: .5em;
+}
+
+.card .card-heading {
+    padding: 1rem;
+    font-size: 1.5rem;
+    margin: 0;
+    border-bottom: .1rem solid rgba(0,0,0,0.2);
+}
+
+.card .card-body {
+    padding: 1rem;
+}
+
+table {
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+th, td {
+    border: .1rem solid rgba(0,0,0,0.2);
+    padding: .5rem;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background: lightgray;
+}
+
+tr:nth-child(odd) {
+    background: #ececec;
+}
+
+th {
+    border: .1rem solid rgba(0,0,0,0.5);
+    background-color: black;
+    color: white;
+}
+
+.edit, .delete {
+    font-size: 2rem;
+    cursor: pointer;
+    margin-right: 2rem;
+}

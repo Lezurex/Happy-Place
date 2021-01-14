@@ -18,6 +18,15 @@ if (isset($_SESSION['username'])) {
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
+<?php
+
+if (isset($_GET['logout'])) {
+    echo '<div id="logout-notice">
+    Erfolgreich ausgeloggt!
+</div>';
+}
+
+?>
 <div id="login-content">
     <table>
         <tr>
