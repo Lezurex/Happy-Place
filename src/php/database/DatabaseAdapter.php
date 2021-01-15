@@ -11,6 +11,10 @@ class DatabaseAdapter {
         Database::connect();
     }
 
+    public function getConnection() : mysqli {
+        return Database::getConnection();
+    }
+
     /**
      * Create table in database
      *
@@ -33,16 +37,16 @@ class DatabaseAdapter {
             }
             switch ($rows->getType()) {
                 case "VARCHAR":
-                    $stringBuilder .= "varchar(250)".$separator;
+                    $stringBuilder .= "varchar(250)" . $separator;
                     break;
                 case "INTEGER":
-                    $stringBuilder .= "bigint(250)".$separator;
+                    $stringBuilder .= "bigint(250)" . $separator;
                     break;
                 case "TEXT":
-                    $stringBuilder .= "text".$separator;
+                    $stringBuilder .= "text" . $separator;
                     break;
                 case "DOUBLE":
-                    $stringBuilder .= "double(250, 2)".$separator;
+                    $stringBuilder .= "double(250, 2)" . $separator;
                     break;
             }
         }
@@ -57,8 +61,7 @@ class DatabaseAdapter {
     public function executeCommand($query) {
         try {
             return mysqli_query(Database::getConnection(), $query);
-        }
-        catch (mysqli_sql_exception $exception) {
+        } catch (mysqli_sql_exception $exception) {
             return 0;
         }
     }
@@ -74,9 +77,9 @@ class DatabaseAdapter {
         $stringBuilder = "";
         $stringBuilder .= "SELECT {$row} FROM {$tablename} ";
         $length = sizeof($keys);
-        if($length != 0) {
-            foreach($keys as $key) {
-                if($length == 1) {
+        if ($length != 0) {
+            foreach ($keys as $key) {
+                if ($length == 1) {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND ";
@@ -86,10 +89,11 @@ class DatabaseAdapter {
         }
         try {
             $result = mysqli_query(Database::getConnection(), $stringBuilder);
-            while($returnRow = mysqli_fetch_assoc($result)) {
+            while ($returnRow = mysqli_fetch_assoc($result)) {
                 return $returnRow[$row];
             }
-        } catch (mysqli_sql_exception $exception) {}
+        } catch (mysqli_sql_exception $exception) {
+        }
         return 0;
     }
 
@@ -104,9 +108,9 @@ class DatabaseAdapter {
         $stringBuilder = "";
         $stringBuilder .= "SELECT {$row} FROM {$tablename} ";
         $length = sizeof($keys);
-        if($length != 0) {
-            foreach($keys as $key) {
-                if($length == 1) {
+        if ($length != 0) {
+            foreach ($keys as $key) {
+                if ($length == 1) {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND ";
@@ -118,11 +122,12 @@ class DatabaseAdapter {
             $result = mysqli_query(Database::getConnection(), $stringBuilder);
 
             $results = array();
-            while($returnRow = mysqli_fetch_assoc($result)) {
+            while ($returnRow = mysqli_fetch_assoc($result)) {
                 array_push($results, $returnRow[$row]);
             }
             return $results;
-        } catch (mysqli_sql_exception $exception) {}
+        } catch (mysqli_sql_exception $exception) {
+        }
         return 0;
     }
 
@@ -135,9 +140,9 @@ class DatabaseAdapter {
         $stringBuilder = "";
         $stringBuilder .= "SELECT * FROM {$tablename} ";
         $length = sizeof($keys);
-        if($length != 0) {
+        if ($length != 0) {
             foreach ($keys as $key) {
-                if($length == 1) {
+                if ($length == 1) {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND ";
@@ -147,7 +152,7 @@ class DatabaseAdapter {
         }
         try {
             $result = mysqli_query(Database::getConnection(), $stringBuilder);
-            while($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_assoc()) {
                 return $row;
             }
 
@@ -166,13 +171,13 @@ class DatabaseAdapter {
         $stringBuilder = "";
         $stringBuilder .= "SELECT * FROM {$tablename}";
 
-        if($orderByColumn != null) {
+        if ($orderByColumn != null) {
             $stringBuilder .= " ORDER BY {$orderByColumn} ASC";
         }
 
         try {
             $result = mysqli_query(Database::getConnection(), $stringBuilder);
-            while($rows = $result->fetch_all(MYSQLI_ASSOC)) {
+            while ($rows = $result->fetch_all(MYSQLI_ASSOC)) {
                 return $rows;
             }
 
@@ -193,9 +198,9 @@ class DatabaseAdapter {
         $stringBuilder = "";
         $stringBuilder .= "SELECT {$row} FROM {$tablename} ";
         $length = sizeof($keys);
-        if($length != 0) {
-            foreach($keys as $key) {
-                if($length == 1) {
+        if ($length != 0) {
+            foreach ($keys as $key) {
+                if ($length == 1) {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND ";
@@ -205,10 +210,11 @@ class DatabaseAdapter {
         }
         try {
             $result = mysqli_query(Database::getConnection(), $stringBuilder);
-            while($returnRow = mysqli_fetch_assoc($result)) {
+            while ($returnRow = mysqli_fetch_assoc($result)) {
                 return (int)$returnRow[$row];
             }
-        } catch (mysqli_sql_exception $exception) {}
+        } catch (mysqli_sql_exception $exception) {
+        }
         return null;
     }
 
@@ -225,7 +231,7 @@ class DatabaseAdapter {
         $length = sizeof($inserts);
 
         foreach ($inserts as $insert) {
-            if($length != 1) {
+            if ($length != 1) {
                 $stringBuilder .= $insert->getColumn() . ", ";
                 $length--;
             } else {
@@ -237,7 +243,7 @@ class DatabaseAdapter {
         $length = sizeof($inserts);
 
         foreach ($inserts as $insert) {
-            if($length != 1) {
+            if ($length != 1) {
                 $stringBuilder .= "'" . $insert->getValue() . "', ";
                 $length--;
             } else {
@@ -260,9 +266,9 @@ class DatabaseAdapter {
         $stringBuilder .= "UPDATE {$tablename} SET {$row} = '{$newValue}' ";
 
         $length = sizeof($keys);
-        if($length != 0) {
+        if ($length != 0) {
             foreach ($keys as $key) {
-                if($length == 1) {
+                if ($length == 1) {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= "WHERE " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND";
@@ -285,7 +291,7 @@ class DatabaseAdapter {
 
         $length = sizeof($inserts);
         foreach ($inserts as $insert) {
-            if($length == 1) {
+            if ($length == 1) {
                 $stringBuilder .= $insert->getColumn() . " = '" . $insert->getValue() . "' ";
             } else {
                 $stringBuilder .= $insert->getColumn() . " = '" . $insert->getValue() . "', ";
@@ -308,10 +314,10 @@ class DatabaseAdapter {
 
         $length = sizeof($keys);
 
-        if($length != 0) {
+        if ($length != 0) {
             $stringBuilder .= "WHERE ";
             foreach ($keys as $key) {
-                if($length == 1) {
+                if ($length == 1) {
                     $stringBuilder .= $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= $key->getColumn() . " = '" . $key->getKeyWord() . "' AND ";
@@ -343,9 +349,9 @@ class DatabaseAdapter {
         $stringBuilder .= "DELETE FROM {$tablename} WHERE";
 
         $length = sizeof($keys);
-        if($length != 0) {
+        if ($length != 0) {
             foreach ($keys as $key) {
-                if($length == 1) {
+                if ($length == 1) {
                     $stringBuilder .= " " . $key->getColumn() . " = '" . $key->getKeyWord() . "'";
                 } else {
                     $stringBuilder .= " " . $key->getColumn() . " = '" . $key->getKeyWord() . "' AND";

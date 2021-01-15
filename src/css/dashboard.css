@@ -49,6 +49,7 @@ main {
 .card {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     border-radius: .5em;
+    margin-bottom: 2rem;
 }
 
 .card .card-heading {
@@ -100,4 +101,18 @@ th {
     font-size: 2rem;
     cursor: pointer;
     margin-right: 2rem;
+}
+
+input {
+    margin: .3rem 0;
+    padding: .2rem;
+    outline: 0;
+    border: none;
+    border-bottom: .1rem solid rgba(0,0,0,0.5);
+    transition: 0.5s;
+}
+
+input:focus {
+    border-bottom: .1rem solid rgba(0,0,0,1);
+    transition: .5s;
 }

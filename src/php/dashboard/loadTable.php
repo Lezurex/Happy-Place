@@ -34,7 +34,7 @@ foreach ($students_data as $student_data) {
         }
         $count--;
     }
-    $table_body .= "<td>$locationString</td><td><i data-id='{$student_data['id']}' class='edit'>📝</i><i data-id='{$student_data['id']}' class='delete'>❌</i></td></tr>";
+    $table_body .= "<td>$locationString</td><td><span data-id='{$student_data['id']}' class='edit'>📝</span><span data-id='{$student_data['id']}' class='delete'>❌</span></td></tr>";
 }
 
 echo $table_body;
