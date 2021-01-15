@@ -78,6 +78,25 @@ if (!isset($_SESSION['username'])) {
         </div>
     </div>
 </main>
+<div> <!-- Popups -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <label>Vorname
+                <input id="edit-firstname" type="text">
+            </label><br>
+            <label>Nachname
+                <input id="edit-lastname" type="text">
+            </label><br>
+            <label>PLZ
+                <input id="edit-city" type="text">
+            </label><br>
+            <button id="edit-save">
+                Speichern
+            </button>
+        </div>
+    </div>
+</div>
 <script src="/js/dashboard.js"></script>
 </body>
 </html>
