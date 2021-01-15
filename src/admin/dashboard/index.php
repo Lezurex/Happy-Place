@@ -22,6 +22,11 @@ if (!isset($_SESSION['username'])) {
 
 </head>
 <body onload="onLoad();">
+<div id="notice">
+    <div id="notice-box">
+        Operation erfolgreich vorgenommen!
+    </div>
+</div>
 
 <header>
     <div>
@@ -63,14 +68,14 @@ if (!isset($_SESSION['username'])) {
             <p>Fügen Sie hier einen neuen Lernenden hinzu.</p>
             <div id="add-form">
                 <label>Vorname
-                    <input id="add-firstname" type="text" placeholder="Max">
+                    <input id="add-firstname" type="text" placeholder="Max" autocomplete="off">
                 </label><br>
                 <label>Nachname
-                    <input id="add-lastname" type="text" placeholder="Mustermann">
+                    <input id="add-lastname" type="text" placeholder="Mustermann" autocomplete="off">
                 </label><br>
                 <label>PLZ, Ort
-                    <input id="add-city" type="text" placeholder="1000 Musterstadt">
-                </label><br>
+                    <input id="add-city" type="text" placeholder="1000" maxlength="4" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+                </label><br><br>
                 <button id="add-btn">
                     Senden
                 </button>
@@ -83,15 +88,15 @@ if (!isset($_SESSION['username'])) {
         <div class="modal-content">
             <span class="close">&times;</span>
             <label>Vorname
-                <input id="edit-firstname" type="text">
+                <input id="edit-firstname" type="text" autocomplete="off">
             </label><br>
             <label>Nachname
-                <input id="edit-lastname" type="text">
+                <input id="edit-lastname" type="text" autocomplete="off">
             </label><br>
             <label>PLZ
-                <input id="edit-city" type="text">
-            </label><br>
-            <button id="edit-save">
+                <input id="edit-city" type="text" maxlength="4" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+            </label><br><br>
+            <button id="edit-save" class="btn-green">
                 Speichern
             </button>
         </div>

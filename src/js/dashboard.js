@@ -13,6 +13,10 @@ let editCity = document.getElementById("edit-city");
 let editSave = document.getElementById("edit-save");
 let currentStudentId = undefined;
 
+let noticeBox = document.getElementById("notice-box");
+
+let deleteStudentId = undefined;
+
 function onLoad() {
     loadTable();
     addCity.addEventListener("keypress", function (event) {
@@ -40,6 +44,11 @@ function addStudent() {
     request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/addStudent.php");
     request.addEventListener("load", function (event) {
         loadTable();
+        if (request.responseText === "200") {
+            showMessage(true, "Lernender erfolgreich hinzugefügt!");
+        } else {
+            showMessage(false, "Während dem Hinzufügen ist ein Fehler aufgetreten!");
+        }
     });
     request.send(formData);
 }
@@ -54,6 +63,38 @@ function editStudent() {
     request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/editStudent.php");
     request.addEventListener("load", function (event) {
         loadTable();
+        editModal.style.display = "none";
+        switch (request.responseText) {
+            case "200":
+                showMessage(true, "Lernender erolgreich editiert!");
+                break;
+            case "403":
+                showMessage(false, "Ihre Sitzung ist abgelaufen. Bitte loggen Sie sich erneut ein!");
+                break;
+            default:
+                showMessage(false, "Während dem Editieren ist ein Fehler aufgetreten!");
+        }
+    });
+    request.send(formData);
+}
+
+function deleteStudent() {
+    let request = new XMLHttpRequest();
+    let formData = new FormData();
+    formData.append("id", deleteStudentId);
+    request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/deleteStudent.php");
+    request.addEventListener("load", function (event) {
+        loadTable();
+        switch (request.responseText) {
+            case "200":
+                showMessage(true, "Lernender erolgreich gelöscht!");
+                break;
+            case "403":
+                showMessage(false, "Ihre Sitzung ist abgelaufen. Bitte loggen Sie sich erneut ein!");
+                break;
+            default:
+                showMessage(false, "Während dem Löschen ist ein Fehler aufgetreten!");
+        }
     });
     request.send(formData);
 }
@@ -73,10 +114,15 @@ function setEventListeners() {
     });
     document.querySelectorAll(".delete").forEach(function (icon) {
         icon.addEventListener("click", function (event) {
-            // do delete stuff
+            deleteStudentId = parseInt(icon.dataset.id);
+            deleteStudent();
         });
     });
 }
+
+editSave.addEventListener("click", function (event) {
+   editStudent();
+});
 
 editModalX.onclick = function() {
     editModal.style.display = "none";
@@ -86,4 +132,21 @@ window.onclick = function(event) {
     if (event.target == editModal) {
         editModal.style.display = "none";
     }
+}
+
+function showMessage(successful, text) {
+    noticeBox.style.transition = ".2s";
+    if (successful) {
+        noticeBox.style.backgroundColor = "#75ff8d";
+        noticeBox.style.borderColor = "#00d623";
+    } else {
+        noticeBox.style.backgroundColor = "#ff6767";
+        noticeBox.style.borderColor = "#ae0000";
+    }
+    noticeBox.innerHTML = text;
+    noticeBox.style.opacity = "100%";
+    noticeBox.style.transition = ".5s";
+    setTimeout(function () {
+        document.getElementById("notice-box").style.opacity = "0";
+    }, 5000);
 }

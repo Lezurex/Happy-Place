@@ -21,10 +21,11 @@ $plz = $_POST['plz'];
 $db->insertIntoTable("students", new Insert("firstname", $_POST['firstname']), new Insert("lastname", $_POST['lastname']));
 $studentId = $db->getConnection()->insert_id;
 
-if ($markerId = $utils->markerExistsAndGetId($plz) != -1) {
+$markerId = $utils->markerExistsAndGetId(intval($plz));
+if ($markerId != -1) {
     $json = json_decode($db->getStringFromTable("markers", "student_ids", new Key("id", $markerId)));
     array_push($json, $studentId);
-    $db->updateValue("markers", "student_ids", json_encode($json, JSON_UNESCAPED_UNICODE));
+    $db->updateValue("markers", "student_ids", json_encode($json, JSON_UNESCAPED_UNICODE), new Key("id", $markerId));
 } else {
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, "https://nominatim.openstreetmap.org/search?postalcode=$plz&country=Switzerland&format=json");

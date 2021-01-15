@@ -101,6 +101,12 @@ th {
     font-size: 2rem;
     cursor: pointer;
     margin-right: 2rem;
+    transition: .5s;
+}
+
+.edit:hover, .delete:hover {
+    transition: .5s;
+    text-shadow: 0 0 .5rem green;
 }
 
 input {
@@ -136,7 +142,8 @@ input:focus {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: fit-content;
+    min-width: 30%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     animation-name: animatetop;
     animation-duration: 0.4s
@@ -159,4 +166,41 @@ input:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+button {
+    outline: 0;
+    border-radius: .5rem;
+    padding: .3rem;
+    border: .15rem solid black;
+    transition: .5s;
+}
+
+button:hover {
+    filter: brightness(80%);
+    transition: .5s;
+    cursor: pointer;
+}
+
+.btn-green {
+    border: .15rem solid #00c400;
+    background-color: #00f100;
+}
+
+#notice {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#notice div {
+    top: 1rem;
+    padding: 1rem;
+    position: fixed;
+    background-color: #75ff8d;
+    border: .2rem solid #00d623;
+    border-radius: 10px;
+    transition: 3s;
+    opacity: 0;
 }
