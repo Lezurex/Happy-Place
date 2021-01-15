@@ -17,8 +17,12 @@ $table_body = "";
 
 foreach ($students_data as $student_data) {
     $table_body .= "<tr><td>{$student_data['firstname']}</td><td>{$student_data['lastname']}</td>";
-    $student_markers = $db->getContainingRows("markers", new Key("student_ids", $student_data['id']));
-    //TODO Student with ID 1 will also match on students with ID 10 - 19, 21, 31, etc
+    $id = $student_data['id'];
+    $student_markers = $db->getContainingRows("markers",
+        new Key("student_ids", "[$id]"),
+        new Key("student_ids", "[$id,%]"),
+        new Key("student_ids", "[%,$id,%]"),
+        new Key("student_ids", "[%,$id]"));
 
     $locationString = "";
     $count = sizeof($student_markers);

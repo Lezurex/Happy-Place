@@ -126,20 +126,6 @@ $db = new DatabaseAdapter();
             array_push($students, $student_item);
         }
 
-//        $request = $db->executeCommand("SELECT * FROM lernende WHERE plz = '" . $marker['plz'] . "';");
-//        $result = array();
-//        while ($row = mysqli_fetch_assoc($request)) {
-//            array_push($result, $row);
-//        }
-//        $students = array();
-//        foreach ($result as $item) {
-//            $student = array(
-//                "first" => censorString($item['vorname']),
-//                "last" => censorString($item['nachname'])
-//            );
-//            array_push($students, $student);
-//        }
-
         $data_item['students'] = $students;
 
         array_push($data, $data_item);

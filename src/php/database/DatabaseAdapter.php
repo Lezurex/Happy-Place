@@ -368,9 +368,9 @@ class DatabaseAdapter {
         if ($length != 0) {
             foreach ($keys as $key) {
                 if ($length == 1) {
-                    $stringBuilder .= " " . $key->getColumn() . " LIKE '%" . $key->getKeyWord() . "%'";
+                    $stringBuilder .= " " . $key->getColumn() . " LIKE '" . $key->getKeyWord() . "'";
                 } else {
-                    $stringBuilder .= " " . $key->getColumn() . " LIKE '%" . $key->getKeyWord() . "%' OR";
+                    $stringBuilder .= " " . $key->getColumn() . " LIKE '" . $key->getKeyWord() . "' OR";
                     $length--;
                 }
             }

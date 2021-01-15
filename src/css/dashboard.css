@@ -73,12 +73,21 @@ th, td {
     text-align: left;
 }
 
+tr {
+    transition: .5s;
+}
+
 tr:nth-child(even) {
     background: lightgray;
 }
 
 tr:nth-child(odd) {
     background: #ececec;
+}
+
+tr:hover {
+    filter: brightness(95%);
+    transition: .5s;
 }
 
 th {
