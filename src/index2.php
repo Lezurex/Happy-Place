@@ -29,7 +29,7 @@ foreach ($data as $markerData) {
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
           type="text/css">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/new_styles.css">
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 
     <style>
@@ -71,6 +71,10 @@ foreach ($data as $markerData) {
     <a href="https://www.openstreetmap.org/copyright">&copy OpenStreetMap contributors</a>
 </div>
 <div id="map" class="map"></div>
+<div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+</div>
 
 <script type="text/javascript">
     const markerData = [<?php
@@ -81,7 +85,7 @@ foreach ($data as $markerData) {
     const features = [];
     for (let marker of markerData) {
         features.push(new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat([marker.lng, marker.lat]))
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([marker.lng, marker.lat])),
         }));
     }
     let markers = new ol.layer.Vector({
@@ -98,6 +102,19 @@ foreach ($data as $markerData) {
             })
         })
     })
+
+    /**
+     * Create an overlay to anchor the popup to the map.
+     */
+    var overlay = new ol.Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    });
+
+
     let map = new ol.Map({
         target: 'map',
         layers: [
@@ -114,11 +131,51 @@ foreach ($data as $markerData) {
             }),
             markers
         ],
+        overlays: [
+            overlay
+        ],
         view: new ol.View({
             center: ol.proj.fromLonLat([8.5208324, 47.360127]),
             zoom: 10
         })
     });
+
+    /**
+     * Elements that make up the popup.
+     */
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+
+    /**
+     * Add a click handler to hide the popup.
+     * @return {boolean} Don't follow the href.
+     */
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+    };
+
+    /**
+     * Add a click handler to the map to render the popup.
+     */
+    map.on('singleclick', function(evt) {
+        var name = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature.get('name');
+        })
+        if (name) {
+            container.style.display="block";
+            var coordinate = evt.coordinate;
+            content.innerHTML = name;
+            overlay.setPosition(coordinate);
+        } else {
+            container.style.display="none";
+        }
+    });
+
+
+
 </script>
 
 </body>
