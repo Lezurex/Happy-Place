@@ -21,9 +21,6 @@ let currentAutocompleteInput = undefined;
 
 function onLoad() {
     loadTable();
-    addCity.addEventListener("keypress", function (event) {
-       // TODO get suggestions
-    });
     addBtn.addEventListener("click", addStudent);
 }
 
@@ -38,6 +35,16 @@ function loadTable() {
 }
 
 function addStudent() {
+    if (addFirstname.value === "" || addCity.value === "" || addLastname.value === "") {
+        showMessage(false, "Bitte füllen Sie alle Felder aus!");
+        return;
+    }
+
+    if (isNaN(addCity.value.substr(0, 4))) {
+        showMessage(false, "Bitte wählen Sie einen Eintrag aus den Vorschlägen aus. Die ersten vier Zeichen müssen eine Postleitzahl bilden.");
+        return;
+    }
+
     let request = new XMLHttpRequest();
     let formData = new FormData();
     formData.append("firstname", addFirstname.value);
@@ -48,6 +55,9 @@ function addStudent() {
         loadTable();
         if (request.responseText === "200") {
             showMessage(true, "Lernender erfolgreich hinzugefügt!");
+            addFirstname.value = "";
+            addLastname.value = "";
+            addCity.value = "";
         } else {
             showMessage(false, "Während dem Hinzufügen ist ein Fehler aufgetreten!");
         }
@@ -56,6 +66,16 @@ function addStudent() {
 }
 
 function editStudent() {
+    if (editFirstname.value === "" || editCity.value === "" || editLastname.value === "") {
+        showMessage(false, "Bitte füllen Sie alle Felder aus!");
+        return;
+    }
+
+    if (isNaN(editCity.value.substr(0, 4))) {
+        showMessage(false, "Bitte wählen Sie einen Eintrag aus den Vorschlägen aus. Die ersten vier Zeichen müssen eine Postleitzahl bilden.");
+        return;
+    }
+
     let request = new XMLHttpRequest();
     let formData = new FormData();
     formData.append("id", currentStudentId);
