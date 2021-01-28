@@ -170,9 +170,9 @@ document.querySelectorAll(".city-autocomplete").forEach(function (obj) {
     })
     obj.addEventListener("focusout", function () {
         setTimeout(function () {
-            let list = currentAutocompleteInput.nextElementSibling;
-            list.innerHTML = "";
-            currentAutocompleteInput = undefined;
+        let list = currentAutocompleteInput.nextElementSibling;
+        // list.style.display = "none";
+        // currentAutocompleteInput = undefined;
         },100)
     })
 });
@@ -185,9 +185,10 @@ function updateCityDropdown(data) {
         item = data[item];
         let listElement = document.createElement('li');
         listElement.textContent = item.plz + " " + item.name;
-        listElement.addEventListener("click", function (event) {
+        listElement.onclick = function (event) {
+            debugger
             currentAutocompleteInput.value = listElement.innerText;
-        });
+        }
         list.appendChild(listElement);
     }
 }
