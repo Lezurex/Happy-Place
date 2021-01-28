@@ -1,8 +1,19 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/php/database/DatabaseAdapter.php';
+use php\objects\Marker;
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/php/database/DatabaseAdapter.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/php/objects/Marker.php';
 
 $db = new DatabaseAdapter();
+
+$markers = array();
+
+$data = $db->getAllStringsFromTable("markers");
+foreach ($data as $markerData) {
+    $marker = new Marker($markerData['id'], $markerData['lat'], $markerData['lon'], $markerData['city_id'], json_decode($markerData['student_ids']));
+    array_push($markers, $marker);
+}
 
 ?>
 
@@ -15,93 +26,84 @@ $db = new DatabaseAdapter();
     <meta http-equiv="content-style-type" content="text/css"/>
     <meta http-equiv="content-language" content="de"/>
     <meta name="author" content="Thomas Heiles"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
+          type="text/css">
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, Arial, serif;
+        }
+
         .map {
             height: 100%;
             width: 100%;
+        }
+
+        #credit {
+            position: absolute;
+            z-index: 100;
+            bottom: 0;
+            right: 0;
+            padding: .5rem;
+            background-color: rgba(255,255,255,0.7);
+        }
+
+        #credit a {
+            transition: .5s;
+            color: black;
+            text-decoration: none;
+        }
+        #credit a:hover {
+            transition: .5s;
+            color: #1f1f1f;
+            text-decoration: underline #1f1f1f solid;
         }
     </style>
 
 </head>
 <body>
-
-<div id="header">
-    <div id="content">Happy Place Karte</div>
-    <div id="osm">© <a href="http://www.openstreetmap.org">OpenStreetMap</a>
-        und <a href="http://www.openstreetmap.org/copyright">Mitwirkende</a>,
-        <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.de">CC-BY-SA</a>
-    </div>
+<div id="credit">
+    <a href="https://www.openstreetmap.org/copyright">&copy OpenStreetMap contributors</a>
 </div>
 <div id="map" class="map"></div>
-<div id="popup" class="ol-popup">
-    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-    <div id="popup-content"></div>
-</div>
 
-<div style="display: none" id="marker-data">
-    <?php
-
-    $markers = $db->getAllStringsFromTable("markers");
-    $data = array();
-
-    foreach ($markers as $marker) {
-        $city_data = $db->getStringsFromTable("cities", new Key("id", $marker['city_id']));
-
-        $data_item = array();
-        $data_item['lon'] = doubleval($marker['lon']);
-        $data_item['lat'] = doubleval($marker['lat']);
-        $data_item['icon'] = $marker['icon'];
-        $data_item['plz'] = $city_data['plz'];
-        $data_item['city'] = $city_data['name'];
-
-        $student_ids = json_decode($marker['student_ids']);
-        $students = array();
-
-        foreach ($student_ids as $student_id) {
-            $student = $db->getStringsFromTable("students", new Key("id", $student_id));
-            $student_item = array(
-                "first" => censorString($student['firstname']),
-                "last" => censorString($student['lastname'])
-            );
-            array_push($students, $student_item);
-        }
-
-        $data_item['students'] = $students;
-
-        array_push($data, $data_item);
-    }
-
-    echo json_encode($data, JSON_UNESCAPED_UNICODE);
-
-    function censorString($string)
-    {
-        $chars = preg_split('//', $string, -1, PREG_SPLIT_NO_EMPTY);
-        $return_string = "";
-        $count = 0;
-        foreach ($chars as $char) {
-            if ($count == 0) {
-                $return_string .= $char;
-            } else {
-                $return_string .= "*";
-            }
-            $count++;
-        }
-        return $return_string;
-    }
-
-    ?>
-</div>
 <script type="text/javascript">
-    var map = new ol.Map({
+    const markerData = [<?php
+        foreach ($markers as $marker) {
+            echo $marker->toJSON();
+        }
+        ?>];
+    const features = [];
+    for (let marker of markerData) {
+        features.push(new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([marker.lng, marker.lat]))
+        }));
+    }
+    let markers = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: features
+        }),
+        style: new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 1],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'fraction',
+                src: './img/marker.png',
+                scale: 0.05
+            })
+        })
+    })
+    let map = new ol.Map({
         target: 'map',
         layers: [
             new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    urls : ["http://a.tile.stamen.com/watercolor/{z}/{x}/{y}.png","http://b.tile.stamen.com/watercolor/{z}/{x}/{y}.png","http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png","http://d.tile.stamen.com/watercolor/{z}/{x}/{y}.png"]
+                    urls: ["http://a.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://b.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://d.tile.stamen.com/watercolor/{z}/{x}/{y}.png"]
                 })
             }),
             new ol.layer.Vector({
@@ -109,54 +111,13 @@ $db = new DatabaseAdapter();
                     format: new ol.format.GeoJSON(),
                     url: './data/countries.geojson'
                 })
-            })
+            }),
+            markers
         ],
         view: new ol.View({
-            center: ol.proj.fromLonLat([8.520833, 47.360103]),
+            center: ol.proj.fromLonLat([8.5208324, 47.360127]),
             zoom: 10
         })
-    });
-
-    var layer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: [
-                new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat([8.520833, 47.360103]))
-                })
-            ]
-        })
-    });
-    map.addLayer(layer);
-
-    let container = document.getElementById('popup');
-    let content = document.getElementById('popup-content');
-    let closer = document.getElementById('popup-closer');
-
-    let overlay = new ol.Overlay({
-        element: container,
-        autoPan: true,
-        autoPanAnimation: {
-            duration: 250
-        }
-    });
-    map.addOverlay(overlay);
-
-    closer.onclick = function() {
-        overlay.setPosition(undefined);
-        closer.blur();
-        return false;
-    };
-
-    map.on('singleclick', function (event) {
-        if (map.hasFeatureAtPixel(event.pixel) === true) {
-            var coordinate = event.coordinate;
-
-            content.innerHTML = "<b>Hello world!</b><br>I am a popup.";
-            overlay.setPosition(coordinate);
-        } else {
-            overlay.setPosition(undefined);
-            closer.blur();
-        }
     });
 </script>
 
