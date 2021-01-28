@@ -17,6 +17,8 @@ let noticeBox = document.getElementById("notice-box");
 
 let deleteStudentId = undefined;
 
+let currentAutocompleteInput = undefined;
+
 function onLoad() {
     loadTable();
     addCity.addEventListener("keypress", function (event) {
@@ -149,4 +151,41 @@ function showMessage(successful, text) {
     setTimeout(function () {
         document.getElementById("notice-box").style.opacity = "0";
     }, 5000);
+}
+
+document.querySelectorAll(".city-autocomplete").forEach(function (obj) {
+    obj.addEventListener("keyup", function (event) {
+        currentAutocompleteInput = obj;
+        let request = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("query", obj.value);
+        request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/getReccommendations.php");
+        request.addEventListener("load", function (event) {
+            updateCityDropdown(JSON.parse(request.responseText));
+        });
+        request.send(formData);
+    });
+    obj.addEventListener("focus", function () {
+        currentAutocompleteInput = obj;
+    })
+    obj.addEventListener("focusout", function () {
+        let list = currentAutocompleteInput.nextElementSibling;
+        list.innerHTML = "";
+        currentAutocompleteInput = undefined;
+    })
+});
+
+function updateCityDropdown(data) {
+    let list = currentAutocompleteInput.nextElementSibling;
+    list.innerHTML = "";
+    list.style.display = "block";
+    for (let item in data) {
+        item = data[item];
+        let listElement = document.createElement('li');
+        listElement.textContent = item.plz + " " + item.name;
+        listElement.addEventListener("click", function (event) {
+            currentAutocompleteInput.value = listElement.innerText;
+        });
+        list.appendChild(listElement);
+    }
 }

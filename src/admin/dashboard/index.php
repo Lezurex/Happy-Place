@@ -74,7 +74,8 @@ if (!isset($_SESSION['username'])) {
                     <input id="add-lastname" type="text" placeholder="Mustermann" autocomplete="off">
                 </label><br>
                 <label>PLZ, Ort
-                    <input id="add-city" type="text" placeholder="1000" maxlength="4" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+                    <input id="add-city" class="city-autocomplete" type="text" placeholder="1000" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+                    <ul class="autocomplete-dropdown"></ul>
                 </label><br><br>
                 <button id="add-btn">
                     Senden
@@ -94,7 +95,8 @@ if (!isset($_SESSION['username'])) {
                 <input id="edit-lastname" type="text" autocomplete="off">
             </label><br>
             <label>PLZ
-                <input id="edit-city" type="text" maxlength="4" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+                <input id="edit-city" class="city-autocomplete" type="text" autocomplete="off"> <!-- TODO remove maxlength when autocomplete introduced -->
+                <ul class="autocomplete-dropdown"></ul>
             </label><br><br>
             <button id="edit-save" class="btn-green">
                 Speichern

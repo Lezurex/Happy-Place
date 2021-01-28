@@ -204,3 +204,23 @@ button:hover {
     transition: 3s;
     opacity: 0;
 }
+
+.autocomplete-dropdown {
+    list-style: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: fit-content;
+    padding: 0;
+    margin-left: 4rem;
+    margin-top: 0;
+}
+
+.autocomplete-dropdown li {
+    background-color: white;
+    transition: .5s;
+    padding: .5rem;
+}
+
+.autocomplete-dropdown li:hover {
+    background-color: #eeeeee;
+    transition: .5s;
+}

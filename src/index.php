@@ -50,17 +50,6 @@ $db = new DatabaseAdapter();
                         20037508.34, 20037508.34),
                 numZoomLevels: 18,
                 maxResolution: 156543,
-                layers: [
-                    new OpenLayers.Tile.Tile({
-                        source: new OpenLayers.Layer.OSM()
-                    }),
-                    new OpenLayers.layer.Vector({
-                        source: new OpenLayers.source.Vector({
-                            format: new OpenLayers.format.GeoJSON(),
-                            url: './data/countries.geojson'
-                        })
-                    })
-                ],
                 units: 'meters'
             });
 
