@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 $db = new DatabaseAdapter();
 
-$result = $db->executeCommand("SELECT plz, name FROM cities WHERE name LIKE '{$_REQUEST['query']}%';");
+$result = $db->executeCommand("SELECT plz, name FROM cities WHERE name LIKE '{$_REQUEST['query']}%' LIMIT 20;");
 $array = mysqli_fetch_all($result, MYSQLI_ASSOC);
 $json = json_encode($array, JSON_UNESCAPED_UNICODE);
 echo $json;

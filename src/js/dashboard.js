@@ -42,7 +42,7 @@ function addStudent() {
     let formData = new FormData();
     formData.append("firstname", addFirstname.value);
     formData.append("lastname", addLastname.value);
-    formData.append("plz", addCity.value);
+    formData.append("plz", addCity.value.substr(0, 4));
     request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/addStudent.php");
     request.addEventListener("load", function (event) {
         loadTable();
@@ -61,7 +61,7 @@ function editStudent() {
     formData.append("id", currentStudentId);
     formData.append("firstname", editFirstname.value);
     formData.append("lastname", editLastname.value);
-    formData.append("plz", editCity.value);
+    formData.append("plz", editCity.value.substr(0, 4));
     request.open("post", document.location.protocol + "//" + document.location.hostname + ":" + document.location.port +  "/php/dashboard/editStudent.php");
     request.addEventListener("load", function (event) {
         loadTable();
@@ -169,9 +169,11 @@ document.querySelectorAll(".city-autocomplete").forEach(function (obj) {
         currentAutocompleteInput = obj;
     })
     obj.addEventListener("focusout", function () {
-        let list = currentAutocompleteInput.nextElementSibling;
-        list.innerHTML = "";
-        currentAutocompleteInput = undefined;
+        setTimeout(function () {
+            let list = currentAutocompleteInput.nextElementSibling;
+            list.innerHTML = "";
+            currentAutocompleteInput = undefined;
+        },100)
     })
 });
 

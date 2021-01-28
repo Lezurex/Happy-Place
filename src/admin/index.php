@@ -29,6 +29,9 @@ if (isset($_GET['logout'])) {
 }
 
 ?>
+<div id="back">
+    <a href="../">&larr; Zurück zur Karte</a>
+</div>
 <div id="login-content">
     <table>
         <tr>

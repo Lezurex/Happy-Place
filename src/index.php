@@ -44,21 +44,29 @@ foreach ($data as $markerData) {
             width: 100%;
         }
 
-        #credit {
+        .overlay {
             position: absolute;
             z-index: 100;
-            bottom: 0;
-            right: 0;
             padding: .5rem;
             background-color: rgba(255,255,255,0.7);
         }
 
-        #credit a {
+        #credit {
+            bottom: 0;
+            right: 0;
+        }
+
+        #admin {
+            bottom: 0;
+            left: 0;
+        }
+
+        a {
             transition: .5s;
             color: black;
             text-decoration: none;
         }
-        #credit a:hover {
+        a:hover {
             transition: .5s;
             color: #1f1f1f;
             text-decoration: underline #1f1f1f solid;
@@ -67,8 +75,11 @@ foreach ($data as $markerData) {
 
 </head>
 <body>
-<div id="credit">
+<div id="credit" class="overlay">
     <a href="https://www.openstreetmap.org/copyright">&copy OpenStreetMap contributors</a>
+</div>
+<div id="admin" class="overlay">
+    <a href="/admin">Admin Login</a>
 </div>
 <div id="map" class="map"></div>
 <div id="popup" class="ol-popup">
@@ -87,7 +98,7 @@ foreach ($data as $markerData) {
 
     let zli = new ol.Feature({
         geometry: new ol.geom.Point(ol.proj.fromLonLat([8.520840,47.360150])),
-        name: "Zürcher Lehrbetriebsverband ICT"
+        name: '<b>Zürcher Lehrbetriebsverband ICT</b><br>Edenstrasse 20'
     })
     zli.setStyle(new ol.style.Style({
         image: new ol.style.Icon({

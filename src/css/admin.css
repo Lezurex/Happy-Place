@@ -65,3 +65,21 @@ button:hover, button:focus {
     border-radius: 10px;
     transition: 3s;
 }
+
+#back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: .5rem;
+}
+
+a {
+    transition: .5s;
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    transition: .5s;
+    color: #1f1f1f;
+    text-decoration: underline #1f1f1f solid;
+}
