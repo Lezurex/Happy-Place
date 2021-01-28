@@ -94,7 +94,7 @@ if (!isset($_SESSION['username'])) {
             <label>Nachname
                 <input id="edit-lastname" type="text" autocomplete="off">
             </label><br>
-            <label>PLZ
+            <label>PLZ, Ort
                 <input id="edit-city" list="edit-datalist" class="city-autocomplete" type="text" autocomplete="off">
                 <datalist id="edit-datalist"></datalist>
             </label><br><br>
