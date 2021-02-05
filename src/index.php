@@ -17,13 +17,13 @@ foreach ($data as $markerData) {
 
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de-de">
+<!DOCTYPE html>
+<html lang="de">
 <head>
     <title>Happy Place</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="content-script-type" content="text/javascript"/>
-    <meta http-equiv="content-style-type" content="text/css"/>
+    <meta content="text/javascript" http-equiv="content-script-type"/>
+    <meta content="text/css" http-equiv="content-style-type"/>
     <meta http-equiv="content-language" content="de"/>
     <meta name="author" content="Thomas Heiles"/>
     <link rel="stylesheet"
@@ -167,7 +167,7 @@ foreach ($data as $markerData) {
         layers: [
             new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    urls: ["http://a.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://b.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.png", "http://d.tile.stamen.com/watercolor/{z}/{x}/{y}.png"]
+                    urls: [window.location.origin + "/php/proxy.php?type=a&x={x}&y={y}&z={z}", window.location.origin + "/php/proxy.php?type=b&x={x}&y={y}&z={z}", window.location.origin + "/php/proxy.php?type=c&x={x}&y={y}&z={z}", window.location.origin + "/php/proxy.php?type=d&x={x}&y={y}&z={z}"]
                 })
             }),
             new ol.layer.Vector({
