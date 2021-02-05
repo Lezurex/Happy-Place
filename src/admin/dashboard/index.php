@@ -44,19 +44,21 @@ if (!isset($_SESSION['username'])) {
         </h2>
         <div class="card-body">
             <p>Tabelle von eingetragenen Lernenden:</p>
-            <table id="table">
-                <thead>
-                <tr>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Wohnort(e)</th>
-                    <th>Aktionen</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div id="table-container">
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>Wohnort(e)</th>
+                        <th>Aktionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -74,7 +76,8 @@ if (!isset($_SESSION['username'])) {
                     <input id="add-lastname" type="text" placeholder="Mustermann" autocomplete="off">
                 </label><br>
                 <label>PLZ, Ort
-                    <input id="add-city" list="add-datalist" class="city-autocomplete" type="text" placeholder="1000" autocomplete="off">
+                    <input id="add-city" list="add-datalist" class="city-autocomplete" type="text" placeholder="1000"
+                           autocomplete="off">
                     <datalist id="add-datalist"></datalist>
                 </label><br><br>
                 <button id="add-btn">
