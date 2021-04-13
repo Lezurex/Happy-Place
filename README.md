@@ -1,2 +1,2 @@
-# Happy Place
+# 😃 Happy Place
 Ein glücklicher Ort.
